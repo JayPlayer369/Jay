@@ -37,8 +37,9 @@ public class RubyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         horizontal = Input.GetAxis("Horizontal");
+        
          vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
 
          Vector2 move = new Vector2(horizontal, vertical);
 
@@ -71,14 +72,23 @@ public class RubyController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 position = rigidbody2D.position;
-        position.x = position.x + 5.0f * horizontal * Time.deltaTime;
-        position.y = position.y + 5.0f * vertical * Time.deltaTime;
+        position.x = position.x + speed * horizontal * Time.deltaTime;
+        position.y = position.y + speed * vertical * Time.deltaTime;
         
         rigidbody2D.MovePosition(position);
     } 
 
     public void ChangeHealth(int amount)
     {
+        if (amount < 0)
+        {
+            if (isInvincible)
+                return;
+            
+            isInvincible = true;
+            invincibleTimer = timeInvincible;
+        }
+        
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
     }
