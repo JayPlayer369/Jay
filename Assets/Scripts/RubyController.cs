@@ -37,7 +37,7 @@ public class RubyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // They Detect your Up and Down Arrow Keys
          vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
 
@@ -88,11 +88,13 @@ public class RubyController : MonoBehaviour
             isInvincible = true;
             invincibleTimer = timeInvincible;
         }
-        
+        // Sets The current health
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
+
+        UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
-    
+    // Launches Projectile
     void Launch()
     {
         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2D.position + Vector2.up * 0.5f, Quaternion.identity);
